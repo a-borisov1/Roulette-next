@@ -1,63 +1,35 @@
-import Head from 'next/head'
+import React from "react";
+import Head from "next/head";
+
+import { RouletteField } from "../components/rouletteField";
 
 export default function Home() {
+  const [resetTrigger, setResetTrigger] = React.useState(true);
+
+  const ballPositionShift = 74 + Math.floor(74 * Math.random());
+  const wheelPositionShift = 74 + Math.floor(74 * Math.random());
+
+  const ballSpin = (360 / 37) * ballPositionShift + 4;
+  const wheelSpin = (360 / 37) * wheelPositionShift;
+  const realPositionShift = (ballPositionShift + wheelPositionShift) % 37;
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Roulette</title>
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className="title">Welcome to Roulette</h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <RouletteField
+          setResetTrigger={setResetTrigger}
+          resetTrigger={resetTrigger}
+          wheelSpin={wheelSpin}
+          ballSpin={ballSpin}
+          realPositionShift={realPositionShift}
+        />
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
 
       <style jsx>{`
         .container {
@@ -70,47 +42,14 @@ export default function Home() {
         }
 
         main {
-          padding: 5rem 0;
+          overflow: hidden;
           flex: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
+          position: relative;
+          padding: 0 50px;
         }
 
         .title {
@@ -124,11 +63,6 @@ export default function Home() {
           text-align: center;
         }
 
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
         code {
           background: #fafafa;
           border-radius: 5px;
@@ -138,48 +72,24 @@ export default function Home() {
             DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
-        .grid {
+        .bet-buttons {
           display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
         }
 
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
+        .bet-button {
+          margin: 0 10px;
+          width: 100px;
+          height: 40px;
+          border-radius: 30px;
+          border: navajowhite;
+          background: red;
+          color: white;
         }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
+        .bet-button:focus {
+          outline: none;
         }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
+        .black {
+          background: black;
         }
 
         @media (max-width: 600px) {
@@ -205,5 +115,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
